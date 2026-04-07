@@ -34,7 +34,6 @@ public class Hotel {
     private String[] amenities;
 
     @CreationTimestamp
-    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
@@ -45,5 +44,11 @@ public class Hotel {
 
     @Column(nullable = false)
     private Boolean active;
+
+    @ManyToOne
+    private User owner;
+
+    @OneToMany(mappedBy = "hotel")
+    private List<Room> rooms;
 }
 
