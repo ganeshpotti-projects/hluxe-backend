@@ -2,6 +2,7 @@ package com.gk_dreams.HLuxe.controller;
 
 import com.gk_dreams.HLuxe.dto.HotelDto;
 import com.gk_dreams.HLuxe.dto.HotelInfoDto;
+import com.gk_dreams.HLuxe.dto.HotelPriceDto;
 import com.gk_dreams.HLuxe.dto.HotelSearchRequest;
 import com.gk_dreams.HLuxe.service.HotelService;
 import com.gk_dreams.HLuxe.service.InventoryService;
@@ -22,8 +23,8 @@ public class HotelBrowseController {
     private final HotelService hotelService;
 
     @GetMapping("/search")
-    public ResponseEntity<Page<HotelDto>> searchHotels(@RequestBody HotelSearchRequest hotelSearchRequest){
-        Page<HotelDto> page = inventoryService.searchHotels(hotelSearchRequest);
+    public ResponseEntity<Page<HotelPriceDto>> searchHotels(@RequestBody HotelSearchRequest hotelSearchRequest){
+        Page<HotelPriceDto> page = inventoryService.searchHotels(hotelSearchRequest);
         return ResponseEntity.ok(page);
     }
 

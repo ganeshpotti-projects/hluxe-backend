@@ -1,10 +1,12 @@
 package com.gk_dreams.HLuxe.service;
 
 import com.gk_dreams.HLuxe.dto.HotelDto;
+import com.gk_dreams.HLuxe.dto.HotelPriceDto;
 import com.gk_dreams.HLuxe.dto.HotelSearchRequest;
 import com.gk_dreams.HLuxe.entity.Hotel;
 import com.gk_dreams.HLuxe.entity.Inventory;
 import com.gk_dreams.HLuxe.entity.Room;
+import com.gk_dreams.HLuxe.repository.HotelMinPriceRepository;
 import com.gk_dreams.HLuxe.repository.InventoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -24,6 +26,8 @@ public class InventoryServiceImpl implements InventoryService{
     private final InventoryRepository inventoryRepository;
 
     private final ModelMapper modelMapper;
+
+    private final HotelMinPriceRepository hotelMinPriceRepository;
 
     @Override
     public void initialiseRoomForAYear(Room room) {
@@ -53,10 +57,10 @@ public class InventoryServiceImpl implements InventoryService{
     }
 
     @Override
-    public Page<HotelDto> searchHotels(HotelSearchRequest hotelSearchRequest) {
+    public Page<HotelPriceDto> searchHotels(HotelSearchRequest hotelSearchRequest) {
         Pageable pageable = PageRequest.of(hotelSearchRequest.getPage(), hotelSearchRequest.getSize());
         long dateCount = ChronoUnit.DAYS.between(hotelSearchRequest.getStartDate(), hotelSearchRequest.getEndDate())+1;
-        Page<Hotel> hotelPage = inventoryRepository.findHotelsWithAvailableInventory(
+        Page<HotelPriceDto> hotelPage = hotelMinPriceRepository.findHotelsWithAvailableInventory(
                 hotelSearchRequest.getCity(),
                 hotelSearchRequest.getStartDate(),
                 hotelSearchRequest.getEndDate(),
@@ -64,6 +68,6 @@ public class InventoryServiceImpl implements InventoryService{
                 dateCount,
                 pageable
         );
-        return hotelPage.map((element) -> modelMapper.map(element, HotelDto.class));
+        return hotelPage;
     }
 }
