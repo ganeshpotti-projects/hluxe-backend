@@ -30,7 +30,7 @@ public class RoomAdminController {
 
     @GetMapping
     public ResponseEntity<List<RoomDto>> getAllRoomsInHotel(@PathVariable Long hotelId){
-        List<RoomDto> rooms = roomService.getALlRooms(hotelId);
+        List<RoomDto> rooms = roomService.getAllRooms(hotelId);
         return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
 

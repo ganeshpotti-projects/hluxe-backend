@@ -6,10 +6,12 @@ import com.gk_dreams.HLuxe.dto.GuestDto;
 import com.gk_dreams.HLuxe.entity.*;
 import com.gk_dreams.HLuxe.enums.BookingStatus;
 import com.gk_dreams.HLuxe.exceptions.ResourceNotFoundException;
+import com.gk_dreams.HLuxe.exceptions.UnAuthorisedException;
 import com.gk_dreams.HLuxe.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.awt.print.Book;
@@ -63,10 +65,6 @@ public class BookingServiceImpl implements BookingService{
 
         inventoryRepository.saveAll(inventoryList);
 
-        User user = userRepository.findById(1L)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
-// todo: remove dummy user
 //        todo: calculate dynamic price
         Booking booking = Booking.builder()
                 .bookingStatus(BookingStatus.RESERVED)
@@ -74,7 +72,7 @@ public class BookingServiceImpl implements BookingService{
                 .room(room)
                 .checkInDate(bookingRequest.getCheckInDate())
                 .checkoutDate(bookingRequest.getCheckOutDate())
-                .user(user)
+                .user(getCurrentUser())
                 .roomsCount(bookingRequest.getRoomCount())
                 .amount(BigDecimal.TEN)
                 .build();
@@ -89,18 +87,21 @@ public class BookingServiceImpl implements BookingService{
                 .findById(bookingId)
                 .orElseThrow(()-> new ResourceNotFoundException("Booking not found with Id: "+ bookingId));
 
+        User user = getCurrentUser();
+
+        if(!user.equals(booking.getUser())){
+            throw new UnAuthorisedException("Booking does not belong to user with id: "+user.getId());
+        }
+
         if(hasBookingExpired(booking))
             throw new IllegalStateException("Booking has already Expired");
 
         if(booking.getBookingStatus() != BookingStatus.RESERVED)
             throw new IllegalStateException("Booking is not reserved");
 
-        User user = userRepository.findById(1L)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
         for(GuestDto guestDto : guestsDtoList){
             Guest guest = modelMapper.map(guestDto, Guest.class);
-            guest.setUser(user);
+            guest.setUser(getCurrentUser());
             guest = guestRepository.save(guest);
             booking.getGuests().add(guest);
         }
@@ -111,5 +112,9 @@ public class BookingServiceImpl implements BookingService{
 
     public boolean hasBookingExpired(Booking booking){
         return booking.getCreatedAt().plusMinutes(10).isBefore(LocalDateTime.now());
+    }
+
+    public User getCurrentUser(){
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }
