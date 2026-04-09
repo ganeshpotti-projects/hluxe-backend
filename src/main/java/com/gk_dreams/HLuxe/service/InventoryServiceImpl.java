@@ -1,9 +1,7 @@
 package com.gk_dreams.HLuxe.service;
 
-import com.gk_dreams.HLuxe.dto.HotelDto;
 import com.gk_dreams.HLuxe.dto.HotelPriceDto;
 import com.gk_dreams.HLuxe.dto.HotelSearchRequest;
-import com.gk_dreams.HLuxe.entity.Hotel;
 import com.gk_dreams.HLuxe.entity.Inventory;
 import com.gk_dreams.HLuxe.entity.Room;
 import com.gk_dreams.HLuxe.repository.HotelMinPriceRepository;

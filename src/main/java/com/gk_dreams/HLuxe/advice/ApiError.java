@@ -10,6 +10,8 @@ import java.util.List;
 @Builder
 public class ApiError {
     private HttpStatus status;
+
     private String message;
+
     private List<String> subErrors;
 }

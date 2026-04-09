@@ -1,7 +1,6 @@
 package com.gk_dreams.HLuxe.entity;
 
 import com.gk_dreams.HLuxe.enums.BookingStatus;
-import com.gk_dreams.HLuxe.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

@@ -2,7 +2,6 @@ package com.gk_dreams.HLuxe.service;
 
 import com.gk_dreams.HLuxe.dto.HotelDto;
 import com.gk_dreams.HLuxe.dto.HotelInfoDto;
-import com.gk_dreams.HLuxe.entity.Hotel;
 
 public interface HotelService {
     HotelDto createNewHotel(HotelDto hotelDto);

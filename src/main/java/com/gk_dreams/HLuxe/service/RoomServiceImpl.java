@@ -7,7 +7,6 @@ import com.gk_dreams.HLuxe.entity.User;
 import com.gk_dreams.HLuxe.exceptions.ResourceNotFoundException;
 import com.gk_dreams.HLuxe.exceptions.UnAuthorisedException;
 import com.gk_dreams.HLuxe.repository.HotelRepository;
-import com.gk_dreams.HLuxe.repository.InventoryRepository;
 import com.gk_dreams.HLuxe.repository.RoomRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

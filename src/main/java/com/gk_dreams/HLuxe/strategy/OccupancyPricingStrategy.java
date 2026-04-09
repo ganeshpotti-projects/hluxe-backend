@@ -10,7 +10,6 @@ public class OccupancyPricingStrategy implements PricingStrategy{
 
     private final PricingStrategy wrapped;
 
-
     @Override
     public BigDecimal calculatePrice(Inventory inventory) {
         BigDecimal price = wrapped.calculatePrice(inventory);

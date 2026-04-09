@@ -11,5 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 public class HotelInfoDto {
     private HotelDto hotelDto;
-    List<RoomDto> rooms;
+
+    private List<RoomDto> rooms;
 }

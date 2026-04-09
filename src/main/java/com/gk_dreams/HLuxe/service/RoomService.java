@@ -1,7 +1,6 @@
 package com.gk_dreams.HLuxe.service;
 
 import com.gk_dreams.HLuxe.dto.RoomDto;
-import com.gk_dreams.HLuxe.entity.Room;
 
 import java.util.List;
 
