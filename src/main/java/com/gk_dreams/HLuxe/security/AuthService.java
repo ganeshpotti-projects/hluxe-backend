@@ -4,7 +4,6 @@ import com.gk_dreams.HLuxe.dto.LoginDto;
 import com.gk_dreams.HLuxe.dto.SignUpRequestDto;
 import com.gk_dreams.HLuxe.dto.UserDto;
 import com.gk_dreams.HLuxe.entity.User;
-import com.gk_dreams.HLuxe.enums.Role;
 import com.gk_dreams.HLuxe.exceptions.ResourceNotFoundException;
 import com.gk_dreams.HLuxe.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +35,6 @@ public class AuthService {
         if(user!=null)
             throw new RuntimeException("User already exists with email: "+signUpRequestDto.getEmail());
         User newUser = modelMapper.map(signUpRequestDto, User.class);
-        newUser.setRoles(Set.of(Role.GUEST));
         newUser.setPassword(passwordEncoder.encode(signUpRequestDto.getPassword()));
         newUser = userRepository.save(newUser);
         return modelMapper.map(newUser, UserDto.class);
